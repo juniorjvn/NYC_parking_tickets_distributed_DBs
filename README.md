@@ -49,6 +49,7 @@ For this last step, we will use Flask Python web application framework. This web
 It will also have some implementation that will let us filter the data by a data range or either look for a specific record giving the summons number or a car plate.
 ### Video Walkthrough
 <img src='img/flaskapp2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+### Video Walkthrough
 <img src='img/flaskapp3.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 

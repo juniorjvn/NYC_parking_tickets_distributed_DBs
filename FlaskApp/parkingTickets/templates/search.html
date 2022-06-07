@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="col-12">
+    <div class="content-section">
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-link active" href="#nav-home" data-toggle="tab">Search by Summons Number</a>
+              <a class="nav-link" href="#nav-profile" data-toggle="tab">Search by Plate</a>
+              <a class="nav-link" href="#nav-contact" data-toggle="tab">Search by Date</a>
+          </div>
+        </nav>
+        <div class="tab-content content-section" id="nav-tabContent">
+            <div class="tab-pane fade in show active col-4" id="nav-home">
+                <form method="POST" action="">
+                    {{ summons_form.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <div class="form-group">
+                            <h5>Summons #</h5>
+                            {% if summons_form.summons_num.errors %}
+                                {{ summons_form.summons_num(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in summons_form.summons_num.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ summons_form.summons_num(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="group-form">
+                            {{ summons_form.submit(class="btn btn-outline-info") }}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="tab-pane fade col-4" id="nav-profile">
+                <form method="POST" action="">
+                    {{ plate_form.hidden_tag() }}
+                    <fieldset class="form-group">
+                    <div class="form-group">
+                        <h5>Plate</h5>
+                        {% if plate_form.plate.errors %}
+                            {{ plate_form.plate(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in plate_form.plate.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ plate_form.plate(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="group-form">
+                        {{ plate_form.submit(class="btn btn-outline-info") }}
+                    </div>
+                </fieldset>
+                </form>
+            </div>
+           <div class="tab-pane fade col-4" id="nav-contact">
+               <form method="POST" action="">
+                   {{ date_form.hidden_tag() }}
+                   <fieldset class="form-group">
+                        <div class="form-group">
+                            <h5>Start</h5>
+                            {% if date_form.start_date.errors %}
+                                {{ date_form.start_date(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in date_form.start_date.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ date_form.start_date(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <h5>End</h5>
+                            {% if date_form.end_date.errors %}
+                                {{ date_form.end_date(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in date_form.end_date.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ date_form.end_date(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="group-form">
+                            {{ date_form.submit(class="btn btn-outline-info") }}
+                        </div>
+                    </fieldset>
+               </form>
+           </div>
+        </div>
+
+    <div class="content-section">
+        <table class="table">
+        <thead>
+            <tr>
+              <th scope="col">Summons #</th>
+              <th scope="col">State</th>
+              <th scope="col">Plate</th>
+              <th scope="col">license Type</th>
+              <th scope="col">Fine Amount</th>
+              <th scope="col">Issue Date</th>
+              <th scope="col">Place of Occurrence</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records.items %}
+            <tr>
+              <th><a href="{{ url_for('summons', summons_number=record.summons_number) }}"> {{ record.summons_number}} </a></th>
+              <td>{{ record.state }}</td>
+              <td>{{ record.plate }}</td>
+              <td>{{ record.license_type }}</td>
+              <td>${{ record.fine_amount }}</td>
+              <td>{{ record.issue_date }}</td>
+              <td>{{ boroughs[record.county] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        {% for page_num in records.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if records.page == page_num %}
+                    <a class="btn btn-info mb-4" href="{{ url_for('search', page=page_num) }}">{{ page_num }}</a>
+                {% else %}
+                    <a class="btn btn-outline-info mb-4" href="{{ url_for('search', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock content %}

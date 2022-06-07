@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!--<embed src="http://nycserv.nyc.gov/NYCServWeb/ShowImage?searchID=VFdwQmQwMUVXVEZOZWtFMFRVRTlQUT09&locationName=_____________________" width="500" height="700">-->
+
+<div class="col-12">
+    <div class="content-section">
+        <div class="row">
+        <div>
+
+        </div>
+        <div class="col-sm-6">
+            <article class="media content-section">
+                <div class="media-body">
+                    <h2>Summons #: {{ summons_info.summons_number }}</h2>
+                    <p><b>Plate:</b> {{ summons_info.plate }}</p>
+                    <p><b>State:</b> {{ summons_info.state }}</p>
+                    <p><b>License Type:</b> {{ summons_info.license_type }}</p>
+                    <p><b>Issue Date:</b> {{ summons_info.issue_date }}</p>
+                    <p><b>Violation:</b> {{ summons_info.violation }}</p>
+                    <p><b>Fine Amount:</b> ${{ summons_info.fine_amount }}</p>
+                    <p><b>Penalty Amount:</b> ${{ summons_info.penalty_amount }}</p>
+                    <p><b>Interest Amount:</b> ${{ summons_info.interest_amount }}</p>
+                    <p><b>Reduction Amount:</b> ${{ summons_info.reduction_amount }}</p>
+                    <p><b>Place of Occurrence:</b> {{ borough }}</p>
+                    <p><b>Issuing Agency:</b> {{ summons_info.issuing_agency }}</p>
+                    <p><b>Violation Status:</b> {{ summons_info.violation_status }}</p>
+                </div>
+            </article>
+        </div>
+        <div class="col-sm-6">
+            <embed src="{{ summons_info.summons_image }}" width="500" height="700">
+        </div>
+
+    </div>
+    </div>
+
+</div>
+{% endblock content %}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <script src="./index.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCcCcw-1jwiB-59cdvWO0aSp4Is78MDt-s&callback=initMap&libraries=&v=weekly" defer></script>
+
+    {% if title %}
+        <title>Parking Tickets - {{ title }}</title>
+    {% else %}
+        <title>Parking Tickets</title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top" >
+        <div class="container">
+          <!-- <a class="navbar-brand mr-4" href="/">Buddy Wheels</a> style="background-color: rgb(131, 195, 250);" -->
+            <a href="{{ url_for('home') }}" class="navbar-brand"><img src="{{ url_for('static', filename='nyc_no_parking.png') }}" alt="Buddy Wheels Logo"></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link" href="{{ url_for('search') }}">Records</a>
+                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-12">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {%for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+          {% endwith%}
+            </div>
+        </div>
+      <div class="row">
+        <div class="col"></div>
+          {% block content %}{% endblock %}
+        <div class="col"></div>
+      </div>
+    </main>
+    <!-- Footer -->
+<footer>
+  <div class="container">
+      <div class="row text-light text-center py-4 justify-content-center">
+          <div class="col-sm-10 col-md-8 col-lg-6">
+              <!-- Call to action -->
+              <ul class="list-unstyled list-inline text-center py-2">
+                <li class="list-inline-item">
+                  <h5 class="mb-1">Register for free</h5>
+                </li>
+                <li class="list-inline-item">
+                  <a href="{{ url_for('login') }}" class="btn btn-danger btn-rounded">Sign up!</a>
+                </li>
+              </ul>
+              <!-- Call to action -->
+              <!-- Social buttons -->
+              <ul class="list-unstyled list-inline text-center">
+                <li class="list-inline-item">
+                  <a href="https://www.facebook.com/" target="_blank" class="btn-social btn-floating btn-fb mx-1">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="1em"
+                         height="1em"
+                         viewBox="0 0 24 24">
+                        <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/>
+                    </svg>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="https://twitter.com/" target="_blank" class="btn-social btn-floating btn-tw mx-1">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="1em"
+                         height="1em"
+                         viewBox="0 0 20 20">
+                        <path d="M10 .4C4.698.4.4 4.698.4 10s4.298 9.6 9.6 9.6s9.6-4.298 9.6-9.6S15.302.4 10 .4zm3.905 7.864c.004.082.005.164.005.244c0 2.5-1.901 5.381-5.379 5.381a5.335 5.335 0 0 1-2.898-.85c.147.018.298.025.451.025c.886 0 1.701-.301 2.348-.809a1.895 1.895 0 0 1-1.766-1.312a1.9 1.9 0 0 0 .853-.033a1.892 1.892 0 0 1-1.517-1.854v-.023c.255.141.547.227.857.237a1.89 1.89 0 0 1-.585-2.526a5.376 5.376 0 0 0 3.897 1.977a1.891 1.891 0 0 1 3.222-1.725a3.797 3.797 0 0 0 1.2-.459a1.9 1.9 0 0 1-.831 1.047a3.799 3.799 0 0 0 1.086-.299a3.834 3.834 0 0 1-.943.979z"/>
+                    </svg>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="https://www.linkedin.com/" target="_blank" class="btn-social btn-floating btn-li mx-1">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="1em"
+                         height="1em"
+                         viewBox="0 0 20 20">
+                        <path d="M10 .4C4.698.4.4 4.698.4 10s4.298 9.6 9.6 9.6s9.6-4.298 9.6-9.6S15.302.4 10 .4zM7.65 13.979H5.706V7.723H7.65v6.256zm-.984-7.024c-.614 0-1.011-.435-1.011-.973c0-.549.409-.971 1.036-.971s1.011.422 1.023.971c0 .538-.396.973-1.048.973zm8.084 7.024h-1.944v-3.467c0-.807-.282-1.355-.985-1.355c-.537 0-.856.371-.997.728c-.052.127-.065.307-.065.486v3.607H8.814v-4.26c0-.781-.025-1.434-.051-1.996h1.689l.089.869h.039c.256-.408.883-1.01 1.932-1.01c1.279 0 2.238.857 2.238 2.699v3.699z"/>
+                    </svg>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="https://www.instagram.com/" target="_blank" class="btn-social btn-floating btn-ig mx-1">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="1em"
+                         height="1em"
+                         viewBox="0 0 1024 1024">
+                        <path d="M512 1024q-104 0-199-40.5t-163.5-109T40.5 711T0 512t40.5-199t109-163.5T313 40.5T512 0t199 40.5t163.5 109t109 163.5t40.5 199t-40.5 199t-109 163.5t-163.5 109t-199 40.5zm256-704q0-26-18.5-45T704 256H320q-26 0-45 19t-19 45v64h114q58-64 142-64t142 64h114v-64zM384 512q0 53 37.5 90.5T512 640t90.5-37.5T640 512t-37.5-90.5T512 384t-90.5 37.5T384 512zm384-64h-76q12 33 12 64q0 80-56 136t-136 56t-136-56t-56-136q0-31 12-64h-76v256q0 27 18.5 45.5T320 768h384q27 0 45.5-18.5T768 704V448z"/>
+                    </svg>
+                  </a>
+                </li>
+              </ul>
+              <!-- Social buttons -->
+          </div>
+      </div>
+
+      <div class="footer-copyright text-center py-1">© 2022 Copyright:
+        <a href="{{ url_for('home') }}"> FindYourTicket.com</a>
+      </div>
+
+  </div>
+</footer>
+<!-- Footer -->
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

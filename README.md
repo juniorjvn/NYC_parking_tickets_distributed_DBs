@@ -37,15 +37,18 @@ Requesting records:
 - July 01, 2021 - July 10, 2021
 - July 01, 2021 - July 31, 2021  
 
+### Video Walkthrough
 <img src='img/data_request.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 ## Flask Web Application
 For this last step, we will use Flask Python web application framework. This web application will allow us to visualize all data collected across the databases.
 
-<img src='https://recordit.co/2BlE06aF4n' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+### Video Walkthrough
+<img src='img/flaskapp1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 It will also have some implementation that will let us filter the data by a data range or either look for a specific record giving the summons number or a car plate.
-
-<img src='img/flaskapp1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 ### Video Walkthrough
+<img src='img/flaskapp2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='img/flaskapp3.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
 

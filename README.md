@@ -31,6 +31,7 @@ Python and JSON modules are great tools that will help us transfer data between 
 
 Requesting records from all boroughs - July 2021.
 
+The asyncio library is used to write asynchronous code, facilitating the execution multiple queries concurrently without necessarily waiting for each request to complete before starting the next.
 Once a Connection is established at each computer, the client can request data as many times as needed. 
 
 Requesting records: 
